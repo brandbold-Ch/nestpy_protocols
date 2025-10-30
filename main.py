@@ -1,12 +1,24 @@
-from typing import Callable, Union, Any, Dict, List, Type, ParamSpecKwargs, Optional
+from typing import Callable, Union, Any, Dict, List, Type, Optional
 from nestpy_protocols.webadapters import AbstractWebServer
 from fastapi import FastAPI, APIRouter
-from  flask import  Flask, Blueprint
+from  flask import  Flask
 import threading
-from flask_restx import Api, Namespace, Resource
+from flask_smorest import Api, Blueprint
 
 
 class FastAPIAdapter(AbstractWebServer):
+
+    def set_swagger_ui_url(self, url: str) -> None:
+        pass
+
+    def set_swagger_ui_path(self, path: str) -> None:
+        pass
+
+    def set_open_api_version(self, version: str) -> None:
+        pass
+
+    def set_api_spec_options(self, spect: dict[str, str]) -> None:
+        pass
 
     def __init__(self) -> None:
         super().__init__()
@@ -30,10 +42,10 @@ class FastAPIAdapter(AbstractWebServer):
         )
         self.routers[name] = router
 
-    def get_router(self, router_name: str) -> Any:
+    def get_router_group(self, router_name: str) -> Any:
         return self.routers.get(router_name, None)
 
-    def add_route(self, router_name: str, path: str, endpoint: Callable[..., Any], **kwargs: Any) -> None:
+    def add_route_in_router_group(self, router_name: str, path: str, endpoint: Callable[..., Any], **kwargs: Any) -> None:
         self.routers[router_name].add_api_route(path=path, endpoint=endpoint, **kwargs)
 
     def set_title(self, title) -> None:
@@ -45,7 +57,7 @@ class FastAPIAdapter(AbstractWebServer):
     def set_description(self, description: str) -> None:
         self.app.description = description
 
-    def listen(self, host, port):
+    def listen(self, host: str, port: Union[str, int]) -> None:
         for router in self.routers.values():
             self.app.include_router(router=router)
 
@@ -106,16 +118,13 @@ class FastAPIAdapter(AbstractWebServer):
     def add_api_route(self, path: str, endpoint: Callable[..., Any], **kwargs: Any) -> None:
         self.app.add_api_route(path, endpoint, **kwargs)
 
-    def api_route(self, path: str, **kwargs: Any) -> None:
-        self.app.api_route(path, **kwargs)
-
     def add_api_websocket_route(self, path: str, endpoint: Callable[..., Any], **kwargs: Any) -> None:
         self.app.add_api_websocket_route(path, endpoint, **kwargs)
 
     def websocket(self, path: str, **kwargs: Any) -> None:
         self.app.websocket(path, **kwargs)
 
-    def include_router(self, router: Any, **kwargs: Any) -> None:
+    def include_router_group(self, router: Any, **kwargs: Any) -> None:
         self.app.include_router(router, **kwargs)
 
     def trace(self, path: str, **kwargs: Any) -> None:
@@ -154,13 +163,26 @@ class FastAPIAdapter(AbstractWebServer):
 
 class FlaskAdapter(AbstractWebServer):
 
+    def set_swagger_ui_url(self, url: str) -> None:
+        self.app.config["OPENAPI_SWAGGER_UI_URL"] = url
+
+    def set_swagger_ui_path(self, path: str) -> None:
+        self.app.config["OPENAPI_SWAGGER_UI_PATH"] = path
+
+    def set_open_api_version(self, version: str) -> None:
+        self.app.config["OPENAPI_VERSION"] = version
+
+    def set_api_spec_options(self, spect: dict[str, str]) -> None:
+        pass
+
     def __init__(self) -> None:
         super().__init__()
         self.app = Flask(__name__)
-        self.api = Api(self.app)
+        self.api: Optional[Api] = None
+        self.blueprints = {}
 
-    def get_router(self, router_name: str) -> Any:
-        ...
+    def get_router_group(self, router_name: str) -> Any:
+        return self.blueprints.get(router_name, None)
 
     def add_router_group(
         self,
@@ -171,34 +193,40 @@ class FlaskAdapter(AbstractWebServer):
         dependencies: Optional[List[Any]] = None,
         include_in_schema: Optional[bool] = None,
     ) -> None:
-        pass
+        bl = Blueprint(url_prefix=prefix, name=name, description=description, import_name=name)
+        self.blueprints[name] = bl
 
-    def add_route(self, name: str, path: str, endpoint: Callable[..., Any], **kwargs: Any) -> None:
-        ...
+    def add_route_in_router_group(self, name: str, path: str, endpoint: Callable[..., Any], **kwargs: Any) -> None:
+        self.blueprints[name].add_url_rule(endpoint=name, rule=path, view_func=endpoint, **kwargs)
 
     def set_title(self, title) -> None:
-        self.api.title = title
+        self.app.config["API_TITLE"] = title
 
     def set_description(self, description) -> None:
-        self.api.description = description
+        ...
 
     def set_prefix(self, prefix: str) -> None:
-        self.api.prefix = prefix
+        ...
 
     def listen(self, host, port) -> None:
+        self.api = Api(self.app)
+
+        for bl in self.blueprints.values():
+            self.api.register_blueprint(bl)
+
         self.app.run(host=host, port=port)
 
     def set_contact(self, contact: Union[Dict[str, str | Any], Any, None]) -> None:
-        self.api.contact = contact
+        ...
 
     def set_license(self, license_info: Union[Dict[str, str | Any], Any, None]) -> None:
-        self.api.license = license_info
+        ...
 
     def set_license_url(self, license_url: str) -> None:
-        self.api.license_url = license_url
+        ...
 
     def set_media_type(self, media_type: str) -> None:
-        self.api.media_type = media_type
+        ...
 
     def add_middleware(self, middleware_class: Type[Callable], *args, **kwargs) -> None:
         ...
@@ -207,10 +235,10 @@ class FlaskAdapter(AbstractWebServer):
         ...
 
     def set_version(self, version: str) -> None:
-        self.api.version = version
+        self.app.config["API_VERSION"] = version
 
     def set_terms_of_service(self, terms: str) -> None:
-        self.api.terms_url = terms
+        ...
 
     def set_servers(self, servers: List[Dict[str, Any]]) -> None:
         pass
@@ -242,29 +270,27 @@ class FlaskAdapter(AbstractWebServer):
     def add_api_route(self, path: str, endpoint: Callable[..., Any], **kwargs: Any) -> None:
         self.app.add_url_rule(rule=path, view_func=endpoint, **kwargs)
 
-    def api_route(self, path: str, **kwargs: Any) -> None:
-        pass
-
     def add_api_websocket_route(self, path: str, endpoint: Callable[..., Any], **kwargs: Any) -> None:
         pass
 
     def websocket(self, path: str, **kwargs: Any) -> None:
         pass
 
-    def include_router(self, router: Any, **kwargs: Any) -> None:
+    def include_router_group(self, router: Any, **kwargs: Any) -> None:
         pass
 
     def trace(self, path: str, **kwargs: Any) -> None:
         pass
 
     def set_openapi_url(self, url: str) -> None:
-        self.api.url_scheme = url
+        self.app.config["OPENAPI_URL"] = url
+        ...
 
     def set_openapi_tags(self, tags: List[Dict[str, Any]]) -> None:
         pass
 
     def set_docs_url(self, url: str) -> None:
-        self.api._doc = url
+        self.app.config["OPENAPI_URL_PREFIX"] = url
 
     def set_redoc_url(self, url: str) -> None:
         pass
@@ -288,28 +314,49 @@ class FlaskAdapter(AbstractWebServer):
         pass
 
 
-def index():
-    return "<h1>Hello World</h1>"
+def get_status():
+    return {"status": "ok", "message": "Servidor funcionando correctamente"}
 
 
-def index2():
-    return "<h1>Hello Router</h1>"
+def get_user():
+    return {"id": 1, "name": "Alice", "role": "admin"}
+
+
+def about():
+    return "Esta es una API de ejemplo creada con Flask-RESTX."
+
+
+def get_products():
+    return {
+        "products": [
+            {"id": 1, "name": "Laptop", "price": 1200},
+            {"id": 2, "name": "Mouse", "price": 25},
+            {"id": 3, "name": "Teclado", "price": 45}
+        ]
+    }
 
 
 app1 = FastAPIAdapter()
 app1.set_title("With FastAPI")
 app1.set_prefix("/api")
 app1.set_description("This server was created in FastAPI")
-app1.add_api_route("/", index, tags=["Test Group"])
+app1.add_api_route("/", get_products, tags=["Products Group"])
 app1.add_router_group(prefix="/users", name="UserController", tags=["Users Group"])
-app1.add_route(router_name="UserController", endpoint=index2, path="/")
+app1.add_route_in_router_group(router_name="UserController", endpoint=get_user, path="/")
+app1.add_route_in_router_group(router_name="UserController", endpoint=about, path="/about")
 
 app2 = FlaskAdapter()
 app2.set_title("With Flask")
-app2.set_prefix("/api")
-app2.set_docs_url("/docs")
-app2.set_description("This server was created in Flask")
-app2.add_api_route("/", index)
+app2.set_version("1.0.0")
+app2.set_swagger_ui_url("https://cdn.jsdelivr.net/npm/swagger-ui-dist/")
+app2.set_open_api_version("3.0.3")
+app2.set_docs_url("/")
+app2.set_swagger_ui_path("/docs")
+app2.add_api_route("/products", get_products)
+app2.add_api_route("/users/user", get_user)
+app2.add_router_group(prefix="/users", name="UserController", description="Endpoints flask-smorest")
+app2.add_route_in_router_group(name="UserController", endpoint=get_status, path="/")
+app2.add_route_in_router_group(name="UserController", endpoint=get_products, path="/products")
 
 t1 = threading.Thread(target=app1.listen, args=("127.0.0.1", 8000))
 t2 = threading.Thread(target=app2.listen, args=("127.0.0.1", 8001))

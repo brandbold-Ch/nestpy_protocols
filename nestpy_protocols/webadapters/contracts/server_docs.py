@@ -31,3 +31,19 @@ class BaseServerDocs(ABC):
     @abstractmethod
     def set_swagger_ui_parameters(self, params: Dict[str, Any]) -> None:
         ...
+
+    @abstractmethod
+    def set_swagger_ui_url(self, url: str) -> None:
+        ...
+
+    @abstractmethod
+    def set_swagger_ui_path(self, path: str) -> None:
+        ...
+
+    @abstractmethod
+    def set_open_api_version(self, version: str) -> None:
+        ...
+
+    @abstractmethod
+    def set_api_spec_options(self, spect: dict[str, str]) -> None:
+        ...

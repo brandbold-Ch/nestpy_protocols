@@ -9,10 +9,6 @@ class BaseServerFunctions(ABC):
         ...
 
     @abstractmethod
-    def api_route(self, path: str, **kwargs: Any) -> None:
-        ...
-
-    @abstractmethod
     def add_api_websocket_route(self, path: str, endpoint: Callable[..., Any], **kwargs: Any) -> None:
         ...
 
@@ -21,7 +17,7 @@ class BaseServerFunctions(ABC):
         ...
 
     @abstractmethod
-    def include_router(self, router: Any, **kwargs: Any) -> None:
+    def include_router_group(self, router: Any, **kwargs: Any) -> None:
         ...
 
     @abstractmethod
