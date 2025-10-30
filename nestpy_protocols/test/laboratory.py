@@ -1,4 +1,5 @@
-from typing import Callable, Union, Any, Dict, List, Type, Optional
+"""
+from typing import Callable, Union, Any, Dict, List, Type, Optional, Sequence
 from nestpy_protocols.webadapters import AbstractWebServer
 from fastapi import FastAPI, APIRouter
 from  flask import  Flask
@@ -7,6 +8,12 @@ from flask_smorest import Api, Blueprint
 
 
 class FastAPIAdapter(AbstractWebServer):
+
+    def get_router_groups(self) -> List[Any] | Dict[Any, Any] | Sequence[Any]:
+        return self.routers
+
+    def set_global_url_prefix(self, prefix: str) -> None:
+        self.app.root_path = prefix
 
     def set_swagger_ui_url(self, url: str) -> None:
         pass
@@ -50,9 +57,6 @@ class FastAPIAdapter(AbstractWebServer):
 
     def set_title(self, title) -> None:
         self.app.title = title
-
-    def set_prefix(self, prefix: str) -> None:
-        self.app.root_path = prefix
 
     def set_description(self, description: str) -> None:
         self.app.description = description
@@ -163,23 +167,29 @@ class FastAPIAdapter(AbstractWebServer):
 
 class FlaskAdapter(AbstractWebServer):
 
+    def set_global_url_prefix(self, prefix: str) -> None:
+        ...
+
     def set_swagger_ui_url(self, url: str) -> None:
-        self.app.config["OPENAPI_SWAGGER_UI_URL"] = url
+        self.flask_app.config["OPENAPI_SWAGGER_UI_URL"] = url
 
     def set_swagger_ui_path(self, path: str) -> None:
-        self.app.config["OPENAPI_SWAGGER_UI_PATH"] = path
+        self.flask_app.config["OPENAPI_SWAGGER_UI_PATH"] = path
 
     def set_open_api_version(self, version: str) -> None:
-        self.app.config["OPENAPI_VERSION"] = version
+        self.flask_app.config["OPENAPI_VERSION"] = version
 
     def set_api_spec_options(self, spect: dict[str, str]) -> None:
         pass
 
     def __init__(self) -> None:
         super().__init__()
-        self.app = Flask(__name__)
+        self.flask_app = Flask(__name__)
         self.api: Optional[Api] = None
         self.blueprints = {}
+
+    def get_router_groups(self) -> List[Any] | Dict[Any, Any] | Sequence[Any]:
+        return self.blueprints
 
     def get_router_group(self, router_name: str) -> Any:
         return self.blueprints.get(router_name, None)
@@ -200,21 +210,18 @@ class FlaskAdapter(AbstractWebServer):
         self.blueprints[name].add_url_rule(endpoint=name, rule=path, view_func=endpoint, **kwargs)
 
     def set_title(self, title) -> None:
-        self.app.config["API_TITLE"] = title
+        self.flask_app.config["API_TITLE"] = title
 
-    def set_description(self, description) -> None:
+    def set_description(self, description: str) -> None:
         ...
 
-    def set_prefix(self, prefix: str) -> None:
-        ...
-
-    def listen(self, host, port) -> None:
-        self.api = Api(self.app)
+    def listen(self, host: str, port: Union[str, int]) -> None:
+        self.api = Api(self.flask_app)
 
         for bl in self.blueprints.values():
             self.api.register_blueprint(bl)
 
-        self.app.run(host=host, port=port)
+        self.flask_app.run(host=host, port=port)
 
     def set_contact(self, contact: Union[Dict[str, str | Any], Any, None]) -> None:
         ...
@@ -235,7 +242,7 @@ class FlaskAdapter(AbstractWebServer):
         ...
 
     def set_version(self, version: str) -> None:
-        self.app.config["API_VERSION"] = version
+        self.flask_app.config["API_VERSION"] = version
 
     def set_terms_of_service(self, terms: str) -> None:
         ...
@@ -262,13 +269,13 @@ class FlaskAdapter(AbstractWebServer):
         pass
 
     def set_extra(self, **extra: Any) -> None:
-        self.app.config.update(**extra)
+        self.flask_app.config.update(**extra)
 
     def set_lifespan(self, lifespan: Any) -> None:
         pass
 
     def add_api_route(self, path: str, endpoint: Callable[..., Any], **kwargs: Any) -> None:
-        self.app.add_url_rule(rule=path, view_func=endpoint, **kwargs)
+        self.flask_app.add_url_rule(rule=path, view_func=endpoint, **kwargs)
 
     def add_api_websocket_route(self, path: str, endpoint: Callable[..., Any], **kwargs: Any) -> None:
         pass
@@ -283,14 +290,14 @@ class FlaskAdapter(AbstractWebServer):
         pass
 
     def set_openapi_url(self, url: str) -> None:
-        self.app.config["OPENAPI_URL"] = url
+        self.flask_app.config["OPENAPI_URL"] = url
         ...
 
     def set_openapi_tags(self, tags: List[Dict[str, Any]]) -> None:
         pass
 
     def set_docs_url(self, url: str) -> None:
-        self.app.config["OPENAPI_URL_PREFIX"] = url
+        self.flask_app.config["OPENAPI_URL_PREFIX"] = url
 
     def set_redoc_url(self, url: str) -> None:
         pass
@@ -338,7 +345,7 @@ def get_products():
 
 app1 = FastAPIAdapter()
 app1.set_title("With FastAPI")
-app1.set_prefix("/api")
+app1.set_global_url_prefix("/api")
 app1.set_description("This server was created in FastAPI")
 app1.add_api_route("/", get_products, tags=["Products Group"])
 app1.add_router_group(prefix="/users", name="UserController", tags=["Users Group"])
@@ -363,3 +370,5 @@ t2 = threading.Thread(target=app2.listen, args=("127.0.0.1", 8001))
 
 t1.start()
 t2.start()
+
+"""
