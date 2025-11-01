@@ -8,7 +8,7 @@ Implementations should apply these settings to the underlying web framework.
 """
 
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Type, Callable, Union
+from typing import Any
 
 
 class FrameworkInitParamsProtocol(ABC):
@@ -22,7 +22,7 @@ class FrameworkInitParamsProtocol(ABC):
     """
 
     @abstractmethod
-    def set_contact(self, contact: Union[Dict[str, Any], str, None]) -> None:
+    def set_contact(self, contact: Any) -> None:
         """
         Set the contact information for the API.
 
@@ -35,7 +35,7 @@ class FrameworkInitParamsProtocol(ABC):
         """
 
     @abstractmethod
-    def set_license(self, license_info: Union[Dict[str, Any], str, None]) -> None:
+    def set_license(self, license_info: Any) -> None:
         """
         Set the license information for the API.
 
@@ -72,7 +72,7 @@ class FrameworkInitParamsProtocol(ABC):
         """
 
     @abstractmethod
-    def add_middleware(self, middleware_class: Type[Callable], *args, **kwargs) -> None:
+    def add_middleware(self,  middleware_class: Any) -> None:
         """
         Register a middleware component with the application.
 
@@ -145,7 +145,7 @@ class FrameworkInitParamsProtocol(ABC):
         """
 
     @abstractmethod
-    def set_servers(self, servers: List[Dict[str, Any]]) -> None:
+    def set_servers(self, servers: Any) -> None:
         """
         Configure a list of servers/environments for the API documentation.
 
@@ -193,7 +193,7 @@ class FrameworkInitParamsProtocol(ABC):
         """
 
     @abstractmethod
-    def set_callbacks(self, callbacks: List[Any]) -> None:
+    def set_callbacks(self, callbacks: Any) -> None:
         """
         Register callback handlers (e.g., async callbacks or background tasks).
 
@@ -217,7 +217,7 @@ class FrameworkInitParamsProtocol(ABC):
         """
 
     @abstractmethod
-    def set_responses(self, responses: Dict[Any, Dict[str, Any]]) -> None:
+    def set_responses(self, responses: Any) -> None:
         """
         Define default or global response schemas for operations.
 

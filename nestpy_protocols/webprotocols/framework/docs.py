@@ -6,7 +6,7 @@ specifies the interface for configuring server documentation endpoints
 and options (OpenAPI, Swagger UI, Redoc) for web adapters.
 """
 
-from typing import Dict, List, Any
+from typing import Any
 from abc import ABC, abstractmethod
 
 
@@ -30,7 +30,7 @@ class FrameworkDocsProtocol(ABC):
         """
 
     @abstractmethod
-    def set_openapi_tags(self, tags: List[Dict[str, Any]]) -> None:
+    def set_openapi_tags(self, tags: Any) -> None:
         """
         Configure OpenAPI tags metadata.
 
@@ -91,12 +91,12 @@ class FrameworkDocsProtocol(ABC):
         """
 
     @abstractmethod
-    def set_swagger_ui_parameters(self, params: Dict[str, Any]) -> None:
+    def set_swagger_ui_parameters(self, params: Any) -> None:
         """
         Set additional parameters for Swagger UI initialization.
 
         Args:
-            params: A mapping of Swagger UI parameter names to values.
+            params: Any of Swagger UI parameter names to values.
 
         Returns:
             None
@@ -139,12 +139,12 @@ class FrameworkDocsProtocol(ABC):
         """
 
     @abstractmethod
-    def set_api_spec_options(self, spect: dict[str, str]) -> None:
+    def set_api_spec_options(self, spect: Any) -> None:
         """
         Set additional options for the API specification generation.
 
         Args:
-            spect: A dictionary of specification options (string keys and values)
+            spect: Any specification options (string keys and values)
                    that may influence generation or metadata.
 
         Returns:

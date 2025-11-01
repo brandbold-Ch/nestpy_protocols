@@ -8,7 +8,7 @@ route lookup, and router metadata for the underlying web framework.
 """
 
 from abc import ABC, abstractmethod
-from typing import List, Any, Callable, Optional, Dict, Sequence
+from typing import List, Any, Dict, Sequence
 
 
 class FrameworkRoutingProtocol(ABC):
@@ -21,39 +21,25 @@ class FrameworkRoutingProtocol(ABC):
     """
 
     @abstractmethod
-    def add_router_group(
-        self,
-        prefix: str,
-        name: str,
-        description: Optional[str] = None,
-        tags: Optional[List[str]] = None,
-        dependencies: Optional[List[Any]] = None,
-        include_in_schema: Optional[bool] = True
-    ) -> None:
+    def add_router_group(self, name: str, **kwargs: Any) -> None:
         """
         Create or register a router group with the application.
 
         Args:
-            prefix: URL prefix applied to all routes in the group (e.g., '/users').
             name: Logical name or identifier for the router group.
-            description: Optional human-readable description of the group.
-            tags: Optional list of tags for documentation or grouping.
-            dependencies: Optional list of dependency providers applied to the group.
-            include_in_schema: Whether routes in this group should be included in generated API schemas.
+            **kwargs: Additional options for the add_router_group function.
 
         Returns:
             None. Implementations should register the router group with the framework.
         """
 
     @abstractmethod
-    def add_route_in_router_group(self, name: str, path: str, endpoint: Callable[..., Any], **kwargs: Any) -> None:
+    def add_route_in_router_group(self, name: str, **kwargs: Any) -> None:
         """
         Add a route to an existing router group.
 
         Args:
             name: The name or identifier of the target router group.
-            path: The route path relative to the group's prefix (e.g., '/items').
-            endpoint: A callable that will handle requests to the route.
             **kwargs: Additional framework-specific options for route registration (methods, response model, dependencies, etc.).
 
         Returns:

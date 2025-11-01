@@ -22,13 +22,11 @@ class FrameworkBehaviorsProtocol(ABC):
     """
 
     @abstractmethod
-    def add_api_route(self, path: str, endpoint: Callable[..., Any], **kwargs: Any) -> None:
+    def add_api_route(self, **kwargs: Any) -> None:
         """
         Register an HTTP API route.
 
         Args:
-            path: The URL path where the endpoint will be mounted (for example, '/items').
-            endpoint: A callable that will handle requests to the route.
             **kwargs: Additional framework-specific options (methods, dependencies, response models, etc.).
 
         Returns:
@@ -36,13 +34,11 @@ class FrameworkBehaviorsProtocol(ABC):
         """
 
     @abstractmethod
-    def add_api_websocket_route(self, path: str, endpoint: Callable[..., Any], **kwargs: Any) -> None:
+    def add_api_websocket_route(self, **kwargs: Any) -> None:
         """
         Register a websocket route.
 
         Args:
-            path: The URL path for the websocket endpoint.
-            endpoint: A callable that will handle websocket connections.
             **kwargs: Additional framework-specific websocket options.
 
         Returns:
@@ -50,12 +46,11 @@ class FrameworkBehaviorsProtocol(ABC):
         """
 
     @abstractmethod
-    def websocket(self, path: str, **kwargs: Any) -> None:
+    def websocket(self, **kwargs: Any) -> None:
         """
         Decorator-style or direct registration helper for websocket endpoints.
 
         Args:
-            path: The URL path for the websocket.
             **kwargs: Additional options used when registering the websocket handler.
 
         Returns:
@@ -63,12 +58,11 @@ class FrameworkBehaviorsProtocol(ABC):
         """
 
     @abstractmethod
-    def include_router_group(self, router: Any, **kwargs: Any) -> None:
+    def include_router_group(self, **kwargs: Any) -> None:
         """
         Include a router or a group of routes into the application.
 
         Args:
-            router: A router object (framework-specific) containing multiple routes.
             **kwargs: Options for mounting the router (prefix, tags, dependencies, etc.).
 
         Returns:
@@ -76,12 +70,11 @@ class FrameworkBehaviorsProtocol(ABC):
         """
 
     @abstractmethod
-    def trace(self, path: str, **kwargs: Any) -> None:
+    def trace(self, **kwargs: Any) -> None:
         """
         Register a tracing or instrumentation endpoint.
 
         Args:
-            path: The URL path to attach tracing or profiling handlers.
             **kwargs: Additional options for the trace endpoint (middleware, handlers, etc.).
 
         Returns:
