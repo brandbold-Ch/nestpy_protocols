@@ -1,6 +1,6 @@
 """
 from typing import Callable, Union, Any, Dict, List, Type, Optional, Sequence
-from nestpy_protocols.webadapters import AbstractWebServer
+from nestpy_protocols.webprotocols import AbstractWebServer
 from fastapi import FastAPI, APIRouter
 from  flask import  Flask
 import threading

@@ -1,51 +1,50 @@
 """
-Module defining the AbstractWebServer contract.
+Module defining the FrameworkWebProtocol contract.
 
-This module declares the AbstractWebServer abstract base class which
+This module declares the FrameworkWebProtocol abstract base class which
 specifies composition methods to attach various server contract objects
 (such as params, functions, events, routers, middlewares and docs) to
 a web server adapter implementation.
 """
 
 from abc import ABC, abstractmethod
-from nestpy_protocols.webadapters.interfaces import (
+from nestpy_protocols.webprotocols import (
     FrameworkDocsProtocol,
-    FrameworkAttributesProtocol,
-    FrameworkRoutersProtocol,
+    FrameworkInitParamsProtocol,
+    FrameworkRoutingProtocol,
     FrameworkMiddlewaresProtocol,
-    FrameworkFunctionsProtocol,
+    FrameworkBehaviorsProtocol,
     FrameworkEventsProtocol,
+    FrameworkErrorsProtocol
 )
 
 
 class FrameworkWebProtocol(ABC):
     """
-    Abstract base class that groups methods for attaching server interfaces.
+    Abstract base class that groups methods for attaching server protocols.
 
-    Implementations should accept instances of the specific contract interfaces
+    Implementations should accept instances of the specific contract protocols
     and return them (optionally wrapped or configured) so callers can continue
     composing or inspecting the configured contract objects.
     """
 
     @abstractmethod
-    def attributes(self) -> FrameworkAttributesProtocol:
+    def init_params(self) -> FrameworkInitParamsProtocol:
         """
         Attach or configure server parameters.
 
         Returns:
-            The configured BaseServerParams instance (may be the same object or an adapter/wrapper).
+            The configured FrameworkInitParamsProtocol instance (maybe the same object or an adapter/wrapper).
         """
-        ...
 
     @abstractmethod
-    def functions(self) -> FrameworkFunctionsProtocol:
+    def behaviors(self) -> FrameworkBehaviorsProtocol:
         """
         Attach or configure server functions (route/websocket registration helpers).
 
         Returns:
-            The configured BaseServerFunctions instance.
+            The configured FrameworkBehaviorsProtocol instance.
         """
-        ...
 
     @abstractmethod
     def events(self) -> FrameworkEventsProtocol:
@@ -53,19 +52,17 @@ class FrameworkWebProtocol(ABC):
         Attach or configure server lifecycle and event handlers.
 
         Returns:
-            The configured BaseServerEvents instance.
+            The configured FrameworkEventsProtocol instance.
         """
-        ...
 
     @abstractmethod
-    def routers(self) -> FrameworkRoutersProtocol:
+    def routing(self) -> FrameworkRoutingProtocol:
         """
         Attach or configure router groups and route management.
 
         Returns:
-            The configured BaseServerRouter instance.
+            The configured FrameworkRoutingProtocol instance.
         """
-        ...
 
     @abstractmethod
     def middlewares(self) -> FrameworkMiddlewaresProtocol:
@@ -73,9 +70,8 @@ class FrameworkWebProtocol(ABC):
         Attach or configure middleware and exception handlers.
 
         Returns:
-            The configured BaseServerMiddlewares instance.
+            The configured FrameworkMiddlewaresProtocol instance.
         """
-        ...
 
     @abstractmethod
     def docs(self) -> FrameworkDocsProtocol:
@@ -83,6 +79,14 @@ class FrameworkWebProtocol(ABC):
         Attach or configure documentation (OpenAPI/Swagger) related settings.
 
         Returns:
-            The configured BaseServerDocs instance.
+            The configured FrameworkDocsProtocol instance.
         """
-        ...
+
+    @abstractmethod
+    def errors(self) -> FrameworkErrorsProtocol:
+        """
+        Attach or configure documentation (OpenAPI/Swagger) related settings.
+
+        Returns:
+            The configured FrameworkErrorsProtocol instance.
+        """

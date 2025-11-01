@@ -1,7 +1,7 @@
 """
-Module defining the BaseServerParams abstract contract.
+Module defining the FrameworkInitParamsProtocol abstract contract.
 
-This module declares the BaseServerParams abstract base class which
+This module declares the FrameworkInitParamsProtocol abstract base class which
 specifies the interface for configuring server-level parameters and
 metadata (OpenAPI/Swagger info, middleware, lifecycle, responses, etc.).
 Implementations should apply these settings to the underlying web framework.
@@ -11,7 +11,7 @@ from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Type, Callable, Union
 
 
-class FrameworkAttributesProtocol(ABC):
+class FrameworkInitParamsProtocol(ABC):
     """
     Abstract base class that defines the interface for server metadata and
     configuration parameters.
@@ -33,7 +33,6 @@ class FrameworkAttributesProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_license(self, license_info: Union[Dict[str, Any], str, None]) -> None:
@@ -47,7 +46,6 @@ class FrameworkAttributesProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_license_url(self, license_url: str) -> None:
@@ -60,7 +58,6 @@ class FrameworkAttributesProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_media_type(self, media_type: str) -> None:
@@ -73,7 +70,6 @@ class FrameworkAttributesProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def add_middleware(self, middleware_class: Type[Callable], *args, **kwargs) -> None:
@@ -87,7 +83,6 @@ class FrameworkAttributesProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_title(self, title: str) -> None:
@@ -100,7 +95,6 @@ class FrameworkAttributesProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_summary(self, summary: str) -> None:
@@ -113,7 +107,6 @@ class FrameworkAttributesProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_description(self, description: str) -> None:
@@ -126,7 +119,6 @@ class FrameworkAttributesProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_version(self, version: str) -> None:
@@ -139,7 +131,6 @@ class FrameworkAttributesProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_terms_of_service(self, terms: str) -> None:
@@ -152,7 +143,6 @@ class FrameworkAttributesProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_servers(self, servers: List[Dict[str, Any]]) -> None:
@@ -165,7 +155,6 @@ class FrameworkAttributesProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_root_path_in_servers(self, enabled: bool) -> None:
@@ -178,7 +167,6 @@ class FrameworkAttributesProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_separate_input_output_schemas(self, enabled: bool) -> None:
@@ -191,7 +179,6 @@ class FrameworkAttributesProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_default_response_class(self, response_class: Any) -> None:
@@ -204,7 +191,6 @@ class FrameworkAttributesProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_callbacks(self, callbacks: List[Any]) -> None:
@@ -217,7 +203,6 @@ class FrameworkAttributesProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_webhooks(self, webhooks: Any) -> None:
@@ -230,7 +215,6 @@ class FrameworkAttributesProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_responses(self, responses: Dict[Any, Dict[str, Any]]) -> None:
@@ -243,7 +227,6 @@ class FrameworkAttributesProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_extra(self, **extra: Any) -> None:
@@ -256,7 +239,6 @@ class FrameworkAttributesProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_lifespan(self, lifespan: Any) -> None:
@@ -269,4 +251,15 @@ class FrameworkAttributesProtocol(ABC):
         Returns:
             None
         """
-        ...
+
+    @abstractmethod
+    def set_debug(self, enabled: bool) -> None:
+        """
+        Enable or disable debug mode.
+
+        Args:
+            enabled: Boolean flag indicating whether to include root_path in servers.
+
+        Returns:
+            None
+        """

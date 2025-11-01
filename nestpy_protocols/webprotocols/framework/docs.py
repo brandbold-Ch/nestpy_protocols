@@ -1,7 +1,7 @@
 """
-Module providing the BaseServerDocs abstract contract.
+Module providing the FrameworkDocsProtocol abstract contract.
 
-This module defines the BaseServerDocs abstract base class which
+This module defines the FrameworkDocsProtocol abstract base class which
 specifies the interface for configuring server documentation endpoints
 and options (OpenAPI, Swagger UI, Redoc) for web adapters.
 """
@@ -28,7 +28,6 @@ class FrameworkDocsProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_openapi_tags(self, tags: List[Dict[str, Any]]) -> None:
@@ -42,7 +41,6 @@ class FrameworkDocsProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_docs_url(self, url: str) -> None:
@@ -55,7 +53,6 @@ class FrameworkDocsProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_redoc_url(self, url: str) -> None:
@@ -68,7 +65,6 @@ class FrameworkDocsProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_swagger_ui_oauth2_redirect_url(self, url: str) -> None:
@@ -81,7 +77,6 @@ class FrameworkDocsProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_swagger_ui_init_oauth(self, config: Any) -> None:
@@ -94,7 +89,6 @@ class FrameworkDocsProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_swagger_ui_parameters(self, params: Dict[str, Any]) -> None:
@@ -107,7 +101,6 @@ class FrameworkDocsProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_swagger_ui_url(self, url: str) -> None:
@@ -120,7 +113,6 @@ class FrameworkDocsProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_swagger_ui_path(self, path: str) -> None:
@@ -133,7 +125,6 @@ class FrameworkDocsProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_open_api_version(self, version: str) -> None:
@@ -146,7 +137,6 @@ class FrameworkDocsProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_api_spec_options(self, spect: dict[str, str]) -> None:
@@ -160,4 +150,3 @@ class FrameworkDocsProtocol(ABC):
         Returns:
             None
         """
-        ...

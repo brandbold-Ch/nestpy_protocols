@@ -1,7 +1,7 @@
 """
-Module defining the BaseServerFunctions abstract contract.
+Module defining the FrameworkBehaviorsProtocol abstract contract.
 
-This module declares the BaseServerFunctions abstract base class which
+This module declares the FrameworkBehaviorsProtocol abstract base class which
 specifies the interface for registering routes, websockets, routers and
 global settings on a server adapter. Implementations should apply these
 methods to the underlying web framework.
@@ -11,7 +11,7 @@ from typing import Any, Callable, Union
 from abc import ABC, abstractmethod
 
 
-class FrameworkFunctionsProtocol(ABC):
+class FrameworkBehaviorsProtocol(ABC):
     """
     Abstract base class that defines the interface for server routing and
     function registration.
@@ -34,7 +34,6 @@ class FrameworkFunctionsProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def add_api_websocket_route(self, path: str, endpoint: Callable[..., Any], **kwargs: Any) -> None:
@@ -49,7 +48,6 @@ class FrameworkFunctionsProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def websocket(self, path: str, **kwargs: Any) -> None:
@@ -63,7 +61,6 @@ class FrameworkFunctionsProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def include_router_group(self, router: Any, **kwargs: Any) -> None:
@@ -77,7 +74,6 @@ class FrameworkFunctionsProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def trace(self, path: str, **kwargs: Any) -> None:
@@ -91,7 +87,6 @@ class FrameworkFunctionsProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
     def set_global_url_prefix(self, prefix: str) -> None:
@@ -104,10 +99,18 @@ class FrameworkFunctionsProtocol(ABC):
         Returns:
             None
         """
-        ...
 
     @abstractmethod
-    def listen(self, host: str, port: Union[str, int]) -> None:
+    def stop_server(self) -> None:
+        """
+        Stop the server
+
+        Returns:
+            None
+        """
+
+    @abstractmethod
+    def start_server(self, host: str, port: Union[str, int]) -> None:
         """
         Start the server listening on the specified host and port.
 
@@ -119,4 +122,3 @@ class FrameworkFunctionsProtocol(ABC):
             None. Implementations should start the server event loop or bind sockets
             so the application begins accepting connections.
         """
-        ...

@@ -1,14 +1,14 @@
 """
-Module providing the BaseServerMiddlewares abstract contract.
+Module providing the FrameworkMiddlewaresProtocol abstract contract.
 
-This module defines the BaseServerMiddlewares abstract base class which
+This module defines the FrameworkMiddlewaresProtocol abstract base class which
 specifies the interface for registering middleware and exception handlers
 on a server adapter. Implementations should apply these settings to the
 underlying web framework.
 """
 
 from abc import ABC, abstractmethod
-from typing import Any, Union
+from typing import Any
 
 
 class FrameworkMiddlewaresProtocol(ABC):
@@ -32,18 +32,3 @@ class FrameworkMiddlewaresProtocol(ABC):
         Returns:
             None
         """
-        ...
-
-    @abstractmethod
-    def exception_handler(self, exc_class_or_status_code: Any) -> None:
-        """
-        Register an exception handler for a given exception class or HTTP status code.
-
-        Args:
-            exc_class_or_status_code: An exception class or an HTTP status code
-                                       for which the handler should be invoked.
-
-        Returns:
-            None
-        """
-        ...

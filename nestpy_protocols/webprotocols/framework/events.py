@@ -1,7 +1,7 @@
 """
-Module defining the BaseServerEvents abstract contract.
+Module defining the FrameworkEventsProtocol abstract contract.
 
-This module declares the BaseServerEvents abstract base class which
+This module declares the FrameworkEventsProtocol abstract base class which
 specifies an interface for handling server-side events. Implementations
 should handle event routing, processing, and any necessary side effects.
 """
@@ -30,4 +30,3 @@ class FrameworkEventsProtocol(ABC):
             None. Implementations should process the event and perform any side
             effects (logging, state changes, notifications) as required.
         """
-        ...
