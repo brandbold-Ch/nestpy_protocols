@@ -263,3 +263,15 @@ class FrameworkInitParamsProtocol(ABC):
         Returns:
             None
         """
+
+    @abstractmethod
+    def set_global_url_prefix(self, prefix: str) -> None:
+        """
+        Set a global URL prefix applied to all registered routes.
+
+        Args:
+            prefix: A string prefix (for example, '/api/v1') to be prepended to all routes.
+
+        Returns:
+            None
+        """
