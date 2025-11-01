@@ -9,7 +9,7 @@ should handle event routing, processing, and any necessary side effects.
 from abc import ABC, abstractmethod
 
 
-class BaseServerEvents(ABC):
+class FrameworkEventsProtocol(ABC):
     """
     Abstract base class that defines the interface for server event handling.
 

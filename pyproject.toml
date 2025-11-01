@@ -1,12 +1,19 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "nestpy-protocols"
-version = "0.1.0"
-description = "Add your description here"
+version = "0.1.0.post2"
+description = "Contracts for the implementation of Web frameworks or ORMs in Python, compatible with NestPy"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = [
-    "fastapi[standart]>=0.120.1",
-    "flask>=3.1.2",
-    "flask-smorest>=0.46.2",
-    "uvicorn>=0.38.0",
+dependencies = []
+authors = [
+    {name = "Brandon Jared Molina Vázquez", email = "jaredbrandon970@gmail.com"}
 ]
+
+[project.urls]
+"Homepage" = "https://github.com/brandbold-Ch/nestpy_protocols.git"
+"Documentation" = "https://github.com/brandbold-Ch/nestpy_protocols.git"
+"Repository" = "https://github.com/brandbold-Ch/nestpy_protocols.git"

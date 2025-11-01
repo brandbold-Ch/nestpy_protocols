@@ -1,6 +1,6 @@
-from nestpy_protocols.webadapters.contracts.web_server import AbstractWebServer
+from nestpy_protocols.webadapters.interfaces.framework.web import FrameworkWebProtocol
 
 
 __all__ = [
-    "AbstractWebServer"
+    "FrameworkWebProtocol"
 ]

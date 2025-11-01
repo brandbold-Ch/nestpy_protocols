@@ -11,7 +11,7 @@ from typing import Any, Callable, Union
 from abc import ABC, abstractmethod
 
 
-class BaseServerFunctions(ABC):
+class FrameworkFunctionsProtocol(ABC):
     """
     Abstract base class that defines the interface for server routing and
     function registration.

@@ -11,7 +11,7 @@ from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Type, Callable, Union
 
 
-class BaseServerParams(ABC):
+class FrameworkAttributesProtocol(ABC):
     """
     Abstract base class that defines the interface for server metadata and
     configuration parameters.

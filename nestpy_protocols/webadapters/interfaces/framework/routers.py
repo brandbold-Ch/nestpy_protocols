@@ -11,7 +11,7 @@ from abc import ABC, abstractmethod
 from typing import List, Any, Callable, Optional, Dict, Sequence
 
 
-class BaseServerRouter(ABC):
+class FrameworkRoutersProtocol(ABC):
     """
     Abstract base class that defines the interface for router group management.
 

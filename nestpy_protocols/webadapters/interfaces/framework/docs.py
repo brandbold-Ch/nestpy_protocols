@@ -10,7 +10,7 @@ from typing import Dict, List, Any
 from abc import ABC, abstractmethod
 
 
-class BaseServerDocs(ABC):
+class FrameworkDocsProtocol(ABC):
     """
     Abstract base class that defines the interface for server documentation
     configuration. Implementations should apply these settings to the web

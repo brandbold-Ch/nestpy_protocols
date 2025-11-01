@@ -11,7 +11,7 @@ from abc import ABC, abstractmethod
 from typing import Any, Union
 
 
-class BaseServerMiddlewares(ABC):
+class FrameworkMiddlewaresProtocol(ABC):
     """
     Abstract base class defining middleware and exception handler registration.
 
