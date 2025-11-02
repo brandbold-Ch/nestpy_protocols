@@ -1,7 +1,7 @@
 """
-Module defining the FrameworkInitParamsProtocol abstract contract.
+Module defining the FrameworkConfProtocol abstract contract.
 
-This module declares the FrameworkInitParamsProtocol abstract base class which
+This module declares the FrameworkConfProtocol abstract base class which
 specifies the interface for configuring server-level parameters and
 metadata (OpenAPI/Swagger info, middleware, lifecycle, responses, etc.).
 Implementations should apply these settings to the underlying web framework.
@@ -11,7 +11,7 @@ from abc import ABC, abstractmethod
 from typing import Any
 
 
-class FrameworkInitParamsProtocol(ABC):
+class FrameworkConfProtocol(ABC):
     """
     Abstract base class that defines the interface for server metadata and
     configuration parameters.
@@ -54,31 +54,6 @@ class FrameworkInitParamsProtocol(ABC):
 
         Args:
             license_url: A string URL referencing the license document.
-
-        Returns:
-            None
-        """
-
-    @abstractmethod
-    def set_media_type(self, media_type: str) -> None:
-        """
-        Set the default media type used by the API (e.g., 'application/json').
-
-        Args:
-            media_type: The default response/request content type.
-
-        Returns:
-            None
-        """
-
-    @abstractmethod
-    def add_middleware(self,  middlewares: Any) -> None:
-        """
-        Register a middleware component with the application.
-
-        Args:
-            middlewares: A middleware object or factory accepted by the framework.
-            *args, **kwargs: Initialization arguments passed to the middleware.
 
         Returns:
             None
@@ -271,6 +246,32 @@ class FrameworkInitParamsProtocol(ABC):
 
         Args:
             prefix: A string prefix (for example, '/api/v1') to be prepended to all routes.
+
+        Returns:
+            None
+        """
+
+    @abstractmethod
+    def set_dependencies(self, dependencies: Any) -> None:
+        """
+        Set global dependencies for the documentation endpoints.
+
+        Args:
+            dependencies: A list of dependency callables or objects to apply
+                          globally to the documentation routes.
+
+        Returns:
+            None
+        """
+
+    @abstractmethod
+    def set_redirect_slashes(self, enabled: bool) -> None:
+        """
+        Enable or disable automatic redirection of URLs with trailing slashes.
+
+        Args:
+            enabled: A boolean indicating whether to enable (True) or disable (False)
+                     trailing slash redirection.
 
         Returns:
             None

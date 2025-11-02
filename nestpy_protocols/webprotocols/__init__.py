@@ -1,18 +1,14 @@
-from nestpy_protocols.webprotocols.framework.routing import FrameworkRoutingProtocol
-from nestpy_protocols.webprotocols.framework.events import FrameworkEventsProtocol
-from nestpy_protocols.webprotocols.framework.behaviors import FrameworkBehaviorsProtocol
-from nestpy_protocols.webprotocols.framework.middlewares import FrameworkMiddlewaresProtocol
-from nestpy_protocols.webprotocols.framework.init_params import FrameworkInitParamsProtocol
-from nestpy_protocols.webprotocols.framework.docs import FrameworkDocsProtocol
-from nestpy_protocols.webprotocols.framework.errors import FrameworkErrorsProtocol
+from nestpy_protocols.webprotocols.framework.comp import FrameworkCompProtocol
+from nestpy_protocols.webprotocols.framework.mw import FrameworkMwProtocol
+from nestpy_protocols.webprotocols.framework.conf import FrameworkConfProtocol
+from nestpy_protocols.webprotocols.framework.doc import FrameworkDocProtocol
+from nestpy_protocols.webprotocols.framework.exc import FrameworkExcProtocol
 
 
 __all__ =[
-    "FrameworkDocsProtocol",
-    "FrameworkEventsProtocol",
-    "FrameworkBehaviorsProtocol",
-    "FrameworkMiddlewaresProtocol",
-    "FrameworkInitParamsProtocol",
-    "FrameworkRoutingProtocol",
-    "FrameworkErrorsProtocol",
+    "FrameworkDocProtocol",
+    "FrameworkCompProtocol",
+    "FrameworkMwProtocol",
+    "FrameworkConfProtocol",
+    "FrameworkExcProtocol",
 ]

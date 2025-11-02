@@ -1,7 +1,7 @@
 """
-Module providing the FrameworkDocsProtocol abstract contract.
+Module providing the FrameworkDocProtocol abstract contract.
 
-This module defines the FrameworkDocsProtocol abstract base class which
+This module defines the FrameworkDocProtocol abstract base class which
 specifies the interface for configuring server documentation endpoints
 and options (OpenAPI, Swagger UI, Redoc) for web adapters.
 """
@@ -10,7 +10,7 @@ from typing import Any
 from abc import ABC, abstractmethod
 
 
-class FrameworkDocsProtocol(ABC):
+class FrameworkDocProtocol(ABC):
     """
     Abstract base class that defines the interface for server documentation
     configuration. Implementations should apply these settings to the web
@@ -165,32 +165,6 @@ class FrameworkDocsProtocol(ABC):
         """
 
     @abstractmethod
-    def set_dependencies(self, dependencies: Any) -> None:
-        """
-        Set global dependencies for the documentation endpoints.
-
-        Args:
-            dependencies: A list of dependency callables or objects to apply
-                          globally to the documentation routes.
-
-        Returns:
-            None
-        """
-
-    @abstractmethod
-    def set_redirect_slashes(self, enabled: bool) -> None:
-        """
-        Enable or disable automatic redirection of URLs with trailing slashes.
-
-        Args:
-            enabled: A boolean indicating whether to enable (True) or disable (False)
-                     trailing slash redirection.
-
-        Returns:
-            None
-        """
-
-    @abstractmethod
     def set_include_in_schema(self, include: bool) -> None:
         """
         Set whether the documentation endpoints should be included in the OpenAPI schema.
@@ -198,42 +172,6 @@ class FrameworkDocsProtocol(ABC):
         Args:
             include: A boolean indicating whether to include (True) or exclude (False)
                      the documentation endpoints from the OpenAPI schema.
-
-        Returns:
-            None
-        """
-
-    @abstractmethod
-    def set_on_startup(self, handlers: Any) -> None:
-        """
-        Set startup event handlers for the documentation routes.
-
-        Args:
-            handlers: A list of callables to be executed on application startup.
-
-        Returns:
-            None
-        """
-
-    @abstractmethod
-    def set_on_shutdown(self, handlers: Any) -> None:
-        """
-        Set shutdown event handlers for the documentation routes.
-
-        Args:
-            handlers: A list of callables to be executed on application shutdown.
-
-        Returns:
-            None
-        """
-
-    @abstractmethod
-    def set_exception_handlers(self, handlers: Any) -> None:
-        """
-        Set custom exception handlers for the documentation routes.
-
-        Args:
-            handlers: A mapping of exception types to handler callables.
 
         Returns:
             None

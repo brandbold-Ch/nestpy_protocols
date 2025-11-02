@@ -9,13 +9,11 @@ a web server adapter implementation.
 
 from abc import ABC, abstractmethod
 from nestpy_protocols.webprotocols import (
-    FrameworkDocsProtocol,
-    FrameworkInitParamsProtocol,
-    FrameworkRoutingProtocol,
-    FrameworkMiddlewaresProtocol,
-    FrameworkBehaviorsProtocol,
-    FrameworkEventsProtocol,
-    FrameworkErrorsProtocol
+    FrameworkDocProtocol,
+    FrameworkConfProtocol,
+    FrameworkMwProtocol,
+    FrameworkCompProtocol,
+    FrameworkExcProtocol
 )
 
 
@@ -29,7 +27,7 @@ class FrameworkWebProtocol(ABC):
     """
 
     @abstractmethod
-    def init_params(self) -> FrameworkInitParamsProtocol:
+    def conf(self) -> FrameworkConfProtocol:
         """
         Attach or configure server parameters.
 
@@ -38,7 +36,7 @@ class FrameworkWebProtocol(ABC):
         """
 
     @abstractmethod
-    def behaviors(self) -> FrameworkBehaviorsProtocol:
+    def comp(self) -> FrameworkCompProtocol:
         """
         Attach or configure server functions (route/websocket registration helpers).
 
@@ -47,25 +45,7 @@ class FrameworkWebProtocol(ABC):
         """
 
     @abstractmethod
-    def events(self) -> FrameworkEventsProtocol:
-        """
-        Attach or configure server lifecycle and event handlers.
-
-        Returns:
-            The configured FrameworkEventsProtocol instance.
-        """
-
-    @abstractmethod
-    def routing(self) -> FrameworkRoutingProtocol:
-        """
-        Attach or configure router groups and route management.
-
-        Returns:
-            The configured FrameworkRoutingProtocol instance.
-        """
-
-    @abstractmethod
-    def middlewares(self) -> FrameworkMiddlewaresProtocol:
+    def mw(self) -> FrameworkMwProtocol:
         """
         Attach or configure middleware and exception handlers.
 
@@ -74,7 +54,7 @@ class FrameworkWebProtocol(ABC):
         """
 
     @abstractmethod
-    def docs(self) -> FrameworkDocsProtocol:
+    def doc(self) -> FrameworkDocProtocol:
         """
         Attach or configure documentation (OpenAPI/Swagger) related settings.
 
@@ -83,9 +63,9 @@ class FrameworkWebProtocol(ABC):
         """
 
     @abstractmethod
-    def errors(self) -> FrameworkErrorsProtocol:
+    def exc(self) -> FrameworkExcProtocol:
         """
-        Attach or configure documentation (OpenAPI/Swagger) related settings.
+        Attach or configure error handling settings.
 
         Returns:
             The configured FrameworkErrorsProtocol instance.
