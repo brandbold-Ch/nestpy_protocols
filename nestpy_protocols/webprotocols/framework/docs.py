@@ -150,3 +150,91 @@ class FrameworkDocsProtocol(ABC):
         Returns:
             None
         """
+
+    @abstractmethod
+    def set_openapi_external_docs(self, external_docs: Any) -> None:
+        """
+        Set external documentation references for the OpenAPI spec.
+
+        Args:
+            external_docs: An object or mapping defining external documentation
+                           references (e.g., description and URL).
+
+        Returns:
+            None
+        """
+
+    @abstractmethod
+    def set_dependencies(self, dependencies: Any) -> None:
+        """
+        Set global dependencies for the documentation endpoints.
+
+        Args:
+            dependencies: A list of dependency callables or objects to apply
+                          globally to the documentation routes.
+
+        Returns:
+            None
+        """
+
+    @abstractmethod
+    def set_redirect_slashes(self, enabled: bool) -> None:
+        """
+        Enable or disable automatic redirection of URLs with trailing slashes.
+
+        Args:
+            enabled: A boolean indicating whether to enable (True) or disable (False)
+                     trailing slash redirection.
+
+        Returns:
+            None
+        """
+
+    @abstractmethod
+    def set_include_in_schema(self, include: bool) -> None:
+        """
+        Set whether the documentation endpoints should be included in the OpenAPI schema.
+
+        Args:
+            include: A boolean indicating whether to include (True) or exclude (False)
+                     the documentation endpoints from the OpenAPI schema.
+
+        Returns:
+            None
+        """
+
+    @abstractmethod
+    def set_on_startup(self, handlers: Any) -> None:
+        """
+        Set startup event handlers for the documentation routes.
+
+        Args:
+            handlers: A list of callables to be executed on application startup.
+
+        Returns:
+            None
+        """
+
+    @abstractmethod
+    def set_on_shutdown(self, handlers: Any) -> None:
+        """
+        Set shutdown event handlers for the documentation routes.
+
+        Args:
+            handlers: A list of callables to be executed on application shutdown.
+
+        Returns:
+            None
+        """
+
+    @abstractmethod
+    def set_exception_handlers(self, handlers: Any) -> None:
+        """
+        Set custom exception handlers for the documentation routes.
+
+        Args:
+            handlers: A mapping of exception types to handler callables.
+
+        Returns:
+            None
+        """

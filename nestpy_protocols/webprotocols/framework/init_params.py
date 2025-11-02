@@ -72,12 +72,12 @@ class FrameworkInitParamsProtocol(ABC):
         """
 
     @abstractmethod
-    def add_middleware(self,  middleware_class: Any) -> None:
+    def add_middleware(self,  middlewares: Any) -> None:
         """
         Register a middleware component with the application.
 
         Args:
-            middleware_class: A middleware class or factory accepted by the framework.
+            middlewares: A middleware object or factory accepted by the framework.
             *args, **kwargs: Initialization arguments passed to the middleware.
 
         Returns:
